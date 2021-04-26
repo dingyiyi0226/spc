@@ -167,18 +167,68 @@ case "$command" in
     echo "Usage: spc [<command>] [<args>]"
     echo "Commands:"
     printf "  %-8s %-15s  %s\n" "add"     "Name Address"   "add the remote to the remote list"
+    printf "  %-8s %-15s  %s\n" "dn"      "[from Name] Files"  "download files from default|specific remote"
     printf "  %-8s %-15s  %s\n" "modify"  "Name [Configs]" "modify the remote config"
     printf "  %-8s %-15s  %s\n" "remote"  "[Remote]"       "show remote config"
     printf "  %-8s %-15s  %s\n" "remotes" ""               "show remote list"
     printf "  %-8s %-15s  %s\n" "set"     "Name"           "set the default remote"
-    printf "  %-8s %-15s  %s\n" "to"      "Name [Files]"   "scp files to name"
-    printf "  %-8s %-15s  %s\n" ""        "[Files]"        "scp files to default remote"
+    printf "  %-8s %-15s  %s\n" "to"      "Name Files"     "upload files to specific remote"
+    printf "  %-8s %-15s  %s\n" ""        "Files"          "upload files to default remote"
 
     ;;
 
+  dn )
+    if [ -z "$2" ]; then
+      echo "Missing filenames"
+      exit
+    fi
+
+    if [ "$2" == "from" ]; then
+      ## download from specific remote
+
+      if [ -z "$3" ]; then
+        echo "Missing remote"
+        exit
+      elif [ ! -f "${SPC_REMOTES_DIR}/$3" ]; then
+        echo "Remote not exist"
+        exit
+      fi
+
+      parse_config "$(cat "${SPC_REMOTE}")"
+      shift 3
+
+      echo "$*"
+      if [ $# -gt 1 ]; then
+        IFS=","
+        scp -r "$(echo "${params}" | sed -E 's/^[[:blank:]]*|[[:blank:]]*$//g')" "${address}:{$*}" "${HOME}/"
+        IFS=" "
+      else
+        scp -r "$(echo "${params}" | sed -E 's/^[[:blank:]]*|[[:blank:]]*$//g')" "${address}:$*" "${HOME}/"
+      fi
+
+    else
+      ## download from default remote
+
+      if [ ! -f "${SPC_REMOTE}" ]; then
+        echo "Default remote not set"
+        exit
+      fi
+
+      parse_config "$(cat "${SPC_REMOTE}")"
+      shift
+
+      if [ $# -gt 1 ]; then
+        IFS=","
+        scp -r "$(echo "${params}" | sed -E 's/^[[:blank:]]*|[[:blank:]]*$//g')" "${address}:{$*}" "${HOME}/"
+        IFS=" "
+      else
+        scp -r "$(echo "${params}" | sed -E 's/^[[:blank:]]*|[[:blank:]]*$//g')" "${address}:$*" "${HOME}/"
+      fi
+    fi
+    ;;
 
   to )
-    ## scp by choosing specific remote
+    ## upload to specific remote
 
     if [ -z "$2" ]; then
       echo "Missing remote"
@@ -197,7 +247,7 @@ case "$command" in
     ;;
 
   * )
-    ## scp files to current remote
+    ## upload to default remote
 
     if [ ! -f "${SPC_REMOTE}" ]; then
       echo "Default remote not set"
