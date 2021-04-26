@@ -1,6 +1,8 @@
 # SPC
 SPC lets you scp to multiple computers easily.
 
+![screenshot](screenshot.png)
+
 ## Features
 - store multiple ip address by a short name
 - set the default address 
