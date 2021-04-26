@@ -54,7 +54,6 @@ command="$1"
 case "$command" in
   remote )
     ## show the current remote
-    # declare config
 
     if [ -n "$2" ]; then
       if [ ! -f "${SPC_REMOTES_DIR}/$2" ]; then
@@ -75,6 +74,7 @@ case "$command" in
 
     echo "---------------"
     cat "${SPC_REMOTES_DIR}/${config}"
+    echo
 
     ;;
 
@@ -86,13 +86,15 @@ case "$command" in
         print_remote "${remote##*/}"
       fi
     done
+    echo
+
     ;;
 
-  set )
-    ## set the current remote
+  default )
+    ## set the default remote
 
     if [ -z "$2" ]; then
-      echo "Usage: spc set name"
+      echo "Usage: spc default name"
       exit
     fi
     remote_name=$2
@@ -104,8 +106,8 @@ case "$command" in
     fi
     ;;
 
-  add )
-    ## add the remote to the remote list
+  create )
+    ## create the remote
 
     if [ -z "$2" ] || [ -z "$3" ]; then
       echo "Missing remote name or remote address"
@@ -122,8 +124,25 @@ case "$command" in
     fi
     ;;
 
-  modify )
-    ## modify remote config in remote list
+  delete )
+    if [ -z "$2" ]; then
+      echo "Missing remote name"
+      exit
+    fi
+
+    if [ -f "${SPC_REMOTES_DIR}/$2" ]; then
+      if [ "$(cat "${SPC_REMOTE}")" == "$2" ]; then
+        rm "${SPC_REMOTE}"
+      fi
+      rm "${SPC_REMOTES_DIR}/$2"
+    else
+      echo "$2 not exist"
+    fi
+
+  ;;
+
+  update )
+    ## update remote config
 
     if [ -z "$2" ]; then
       echo "Missing remote name"
@@ -136,44 +155,65 @@ case "$command" in
     filename="${SPC_REMOTES_DIR}/$2"
     shift 2
 
-    if [ $# -eq 0 ]; then
+    if [ "$1" == "delete" ]; then
+      shift
+      if [ $# -eq 0 ]; then
         echo "Missing config"
         exit
-    fi
+      fi
 
-    for config in "$@"; do
-      if config_syntax_check "${config}"; then
-        config_key=${config%=*}
-
-        ## sed command is different on MacOS
-        if [[ "$OSTYPE" == "darwin"* ]]; then
-          grep -q "^${config_key}=.*" "${filename}" \
-            && sed -i '' "s/^${config_key}=.*/${config}/g" "${filename}" \
-            || echo "${config}" >> "${filename}"
+      for config_key in "$@"; do
+        ## In order to use `sed` on both linux and macos, generate backup file and delete it
+        if grep -q "^${config_key}=.*" "${filename}" ; then
+          sed -i.bak "/^${config_key}=.*/d" "${filename}"
+          rm "${filename}.bak"
         else
-          grep -q "^${config_key}=.*" "${filename}" \
-            && sed -i "s/^${config_key}=.*/${config}/g" "${filename}" \
-            || echo "${config}" >> "${filename}"
+          echo "${config_key} not found"
         fi
+      done
 
-      else
-        echo "Config: ${config} is not valid."
+    else
+
+      if [ $# -eq 0 ]; then
+        echo "Missing config"
         exit
       fi
-    done
+
+      for config in "$@"; do
+        if config_syntax_check "${config}"; then
+          config_key=${config%=*}
+
+          ## create or update config
+          ## In order to use `sed` on both linux and macos, generate backup file and delete it
+          if grep -q "^${config_key}=.*" "${filename}"; then
+            sed -i.bak "s/^${config_key}=.*/${config}/g" "${filename}"
+            rm "${filename}.bak"
+          else
+            echo "${config}" >> "${filename}"
+          fi
+
+        else
+          echo "Config: ${config} is not valid."
+          exit
+        fi
+      done
+    fi
     ;;
 
   help | -h | --help | "" )
+    # TODO: need fix
+
     echo "Usage: spc [<command>] [<args>]"
     echo "Commands:"
-    printf "  %-8s %-15s  %s\n" "add"     "Name Address"   "add the remote to the remote list"
-    printf "  %-8s %-15s  %s\n" "dn"      "[from Name] Files"  "download files from default|specific remote"
-    printf "  %-8s %-15s  %s\n" "modify"  "Name [Configs]" "modify the remote config"
-    printf "  %-8s %-15s  %s\n" "remote"  "[Remote]"       "show remote config"
-    printf "  %-8s %-15s  %s\n" "remotes" ""               "show remote list"
-    printf "  %-8s %-15s  %s\n" "set"     "Name"           "set the default remote"
-    printf "  %-8s %-15s  %s\n" "to"      "Name Files"     "upload files to specific remote"
-    printf "  %-8s %-15s  %s\n" ""        "Files"          "upload files to default remote"
+    printf "  %-8s %-22s  %s\n" ""        "Files"          "upload files to default remote machine"
+    printf "  %-8s %-22s  %s\n" "add"     "Machine_name Address"   "add the remote to the remote machine list"
+    printf "  %-8s %-22s  %s\n" "dn"      "[from Machine_name] Files"  "download files from default/specific remote machine"
+    printf "  %-8s %-22s  %s\n" "help"    ""               "Display all commands"
+    printf "  %-8s %-22s  %s\n" "modify"  "Machine_name [Configs]" "modify the remote machine config"
+    printf "  %-8s %-22s  %s\n" "remote"  "[Machine_name]"       "show remote  machine config"
+    printf "  %-8s %-22s  %s\n" "remotes" ""               "show remote machine list"
+    printf "  %-8s %-22s  %s\n" "set"     "Machine_name"           "set the default remote machine"
+    printf "  %-8s %-22s  %s\n" "to"      "Machine_name Files"     "upload files to specific remote machine"
 
     ;;
 
