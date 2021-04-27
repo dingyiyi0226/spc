@@ -1,0 +1,32 @@
+#!/bin/bash
+# Summary: Remove the remote machine configurations
+# Usage: spc remove <remote-name> <config-key> <config-key2> <...>
+#
+
+set -e
+
+if [ -z "$1" ]; then
+  echo "Missing remote name"
+  exit
+elif [ ! -f "${SPC_REMOTES_DIR}/$1" ]; then
+  echo "Remote not exist"
+  exit
+fi
+
+filename="${SPC_REMOTES_DIR}/$1"
+shift
+
+if [ $# -eq 0 ]; then
+  echo "Missing config"
+  exit
+fi
+
+for config_key in "$@"; do
+  ## In order to use `sed` on both linux and macos, generate backup file and delete it
+  if grep -q -E "^${config_key}(=|$)" "${filename}" ; then
+    sed -i.bak -E "/^${config_key}(=|$)/d" "${filename}"
+    rm "${filename}.bak"
+  else
+    echo "${config_key} not found"
+  fi
+done

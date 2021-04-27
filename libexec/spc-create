@@ -1,0 +1,20 @@
+#!/bin/bash
+# Summary: Create a new remote machine
+# Usage: spc create <remote-name> <address>
+#
+
+set -e
+
+if [ -z "$1" ] || [ -z "$2" ]; then
+  echo "Missing remote name or remote address"
+  exit
+fi
+
+remote_name=$1
+remote_address=$2
+if [ -f "${SPC_REMOTES_DIR}/${remote_name}" ]; then
+  echo "$remote_name already exists"
+  exit
+else
+  echo "address=${remote_address}" >> "${SPC_REMOTES_DIR}/${remote_name}"
+fi

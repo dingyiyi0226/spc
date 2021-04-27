@@ -1,0 +1,20 @@
+#!/bin/bash
+# Summary: Delete a remote machine
+# Usage: spc delete <remote-name>
+#
+
+set -e
+
+if [ -z "$1" ]; then
+  echo "Missing remote name"
+  exit
+fi
+
+if [ -f "${SPC_REMOTES_DIR}/$1" ]; then
+  if [ "$(cat "${SPC_REMOTE}")" == "$1" ]; then
+    rm "${SPC_REMOTE}"
+  fi
+  rm "${SPC_REMOTES_DIR}/$1"
+else
+  echo "$1 not exist"
+fi

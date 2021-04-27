@@ -1,0 +1,53 @@
+#!/bin/bash
+# Summary: Update the remote machine configurations
+# Usage: spc update <remote-name> <config> <config2> <...>
+#
+# Configs is vaild if it the number of "=" <= 1
+# Example configs: "-P=8787", "-a"
+#
+
+set -e
+
+config_syntax_check() {
+  local count
+  count="$(echo "$1" | awk -F "=" '{print NF-1}')"
+  if [[ ${count} -gt 1 ]]; then
+    return 1
+  fi
+  return 0
+}
+
+if [ -z "$1" ]; then
+  echo "Missing remote name"
+  exit
+elif [ ! -f "${SPC_REMOTES_DIR}/$1" ]; then
+  echo "Remote not exist"
+  exit
+fi
+
+filename="${SPC_REMOTES_DIR}/$1"
+shift
+
+if [ $# -eq 0 ]; then
+  echo "Missing config"
+  exit
+fi
+
+for config in "$@"; do
+  if config_syntax_check "${config}"; then
+    config_key=${config%=*}
+
+    ## create or update config
+    ## In order to use `sed` on both linux and macos, generate backup file and delete it
+    if grep -q "^${config_key}=.*" "${filename}"; then
+      sed -i.bak "s/^${config_key}=.*/${config}/g" "${filename}"
+      rm "${filename}.bak"
+    else
+      echo "${config}" >> "${filename}"
+    fi
+
+  else
+    echo "${config} is not valid."
+    exit
+  fi
+done

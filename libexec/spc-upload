@@ -1,0 +1,45 @@
+#!/bin/bash
+# Summary: Upload file/folders to remote machine
+# Usage: spc [upload|-u] [-r <remote-name>] <file> <file2> <...>
+#
+
+set -e
+
+parse_config() {
+  if [ ! -f "${SPC_REMOTES_DIR}/$1" ]; then
+    echo "$1 not found"
+  else
+    address=$(awk -F "=" '/^address/{print $2}' "${SPC_REMOTES_DIR}/$1")
+    params=$(awk -F "=" 'BEGIN{ORS=" "} !/^address/{print $1 " " $2}' "${SPC_REMOTES_DIR}/$1")
+  fi
+}
+
+if [[ "$1" =~ ^(-r|--remote)$ ]]; then
+  if [ -z "$2" ]; then
+    echo "Missing <remote>"
+    exit
+  elif [ ! -f "${SPC_REMOTES_DIR}/$2" ]; then
+    echo "$2 not exists"
+    exit
+  fi
+  remote="$2"
+  shift 2
+
+else
+  if [ ! -f "${SPC_REMOTE}" ]; then
+    echo "Default remote not set"
+    exit
+  fi
+
+  remote="$(cat "${SPC_REMOTE}")"
+fi
+
+if [ $# == 0 ]; then
+  echo "Missing files"
+  exit
+fi
+
+parse_config "${remote}"
+
+# have to remove leading and trailing space in $params
+scp -r "$(echo "${params}" | sed -E 's/^[[:blank:]]*|[[:blank:]]*$//g')" "$@" "${address}:~/"

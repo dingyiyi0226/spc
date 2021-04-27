@@ -1,0 +1,23 @@
+#!/bin/bash
+# Summary: Display help for all commands
+# Usage: spc help
+#
+
+set -e
+
+echo "Usage: spc [<command>] [<args>]"
+echo "File transmitting commands:"
+printf "  %-8s  %s\n" "upload"     "Upload file/folders to remote machine"
+printf "  %-8s  %s\n" "download"   "Download file/folders from remote machine"
+
+echo "Remote setting commands:"
+printf "  %-8s  %s\n" "create"   "Create a new remote machine"
+printf "  %-8s  %s\n" "delete"   "Delete a remote machine"
+printf "  %-8s  %s\n" "update"   "Update the remote machine configurations"
+printf "  %-8s  %s\n" "remove"   "Remove the remote machine configurations"
+printf "  %-8s  %s\n" "remote"   "Show the remote machine configurations"
+printf "  %-8s  %s\n" "remotes"  "List all remote machines"
+printf "  %-8s  %s\n" "default"  "Set the default remote machine"
+printf "  %-8s  %s\n" "help"     "Display help for all commands"
+echo
+echo "The default command is 'upload' "

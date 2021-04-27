@@ -1,0 +1,28 @@
+#!/bin/bash
+# Summary: Show the remote machine configurations
+# Usage: spc remote [<remote-name>]
+#
+
+set -e
+
+if [ -n "$1" ]; then
+  if [ -f "${SPC_REMOTES_DIR}/$1" ]; then
+    echo "$1"
+    config="$1"
+  else
+    echo "Remote not exists"
+    exit
+  fi
+else
+  if [ -f "${SPC_REMOTE}" ]; then
+    cat "${SPC_REMOTE}"
+    config="$(cat "${SPC_REMOTE}")"
+  else
+    echo "Remote not set"
+    exit
+  fi
+fi
+
+echo "---------------"
+cat "${SPC_REMOTES_DIR}/${config}"
+echo

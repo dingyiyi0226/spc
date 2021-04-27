@@ -1,0 +1,55 @@
+#!/bin/bash
+
+set -e
+
+if [ -z "$SPC_DIR" ]; then
+  SPC_DIR="${HOME}/.spc"
+fi
+
+SPC_REMOTE="${SPC_DIR}/remote"
+SPC_REMOTES_DIR="${SPC_DIR}/remotes"
+
+[ -d "$SPC_DIR" ] || mkdir "$SPC_DIR"
+[ -d "$SPC_REMOTES_DIR" ] || mkdir "$SPC_REMOTES_DIR"
+
+export SPC_DIR
+export SPC_REMOTE
+export SPC_REMOTES_DIR
+
+abs_path() {
+  local path="$1"
+  (
+    cd "${path%/*}"
+    echo "$PWD"
+  )
+}
+
+bin_path="$(abs_path "$0")"
+libexec_path="${bin_path%/*}/libexec"
+export PATH="${libexec_path}:${PATH}"
+
+
+command="$1"
+case "$command" in
+  create | delete | update | remove | remote | remotes | default )
+    shift
+    exec "spc-${command}" "$@"
+    ;;
+
+  help | -h | "" )
+    exec spc-help
+    ;;
+
+  download | -d )
+    shift
+    exec spc-download "$@"
+    ;;
+
+  upload | -u | * )
+    if [[ "${command}" =~ ^(upload|-u)$ ]]; then
+      shift
+    fi
+    exec spc-upload "$@"
+    ;;
+    
+esac

@@ -1,0 +1,18 @@
+#!/bin/bash
+# Summary: Set the default remote machine
+# Usage: spc default <remote-name>
+#
+
+set -e
+
+if [ -z "$1" ]; then
+  echo "Usage: spc default name"
+  exit
+fi
+remote_name=$1
+if [ -f "${SPC_REMOTES_DIR}/${remote_name}" ]; then
+  echo "$remote_name" > "$SPC_REMOTE"
+else
+  echo "${remote_name} not exists"
+  exit
+fi
