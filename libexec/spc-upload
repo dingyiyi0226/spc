@@ -5,12 +5,46 @@
 
 set -e
 
+SCP_OPS=("-3" "-4" "-6" "-B" "-C" "-p" "-q" "-r" "-T" "-v" "-c" "-F" "-i" "-J" "-l" "-o" "-P" "-S")
+DEFAULT_UPLOAD_DIR="~/"
+
+get_config() {
+  local config="$1"
+  local file="$2"
+
+  awk -F "=" -v config="${config}" '$0~config {print $2}' "${file}"
+}
+
 parse_config() {
+  ## parse config and store in three variables: address, uploaddir, params
+
   if [ ! -f "${SPC_REMOTES_DIR}/$1" ]; then
     echo "$1 not found"
   else
-    address=$(awk -F "=" '/^address/{print $2}' "${SPC_REMOTES_DIR}/$1")
-    params=$(awk -F "=" 'BEGIN{ORS=" "} !/^address/{print $1 " " $2}' "${SPC_REMOTES_DIR}/$1")
+    address="$(get_config "address" "${SPC_REMOTES_DIR}/$1")"
+    if [ -z "${address}" ]; then
+      echo "No address"
+      exit
+    fi
+
+    uploaddir="$(get_config "uploaddir" "${SPC_REMOTES_DIR}/$1")"
+    if [[ -z "${uploaddir}" ]]; then
+      uploaddir="${DEFAULT_UPLOAD_DIR}"
+    fi
+    
+    params=""
+    for ops in "${SCP_OPS[@]}"; do
+      if grep -q -E "^${ops}(=|$)" "${SPC_REMOTES_DIR}/$1"; then
+        value="$(get_config "${ops}" "${SPC_REMOTES_DIR}/$1")"
+
+        if [[ -n "${value}" ]]; then
+          params="${params} ${ops} ${value}"
+        else
+          params="${params} ${ops}"
+        fi
+      fi
+    done
+    params="${params# }"
   fi
 }
 
@@ -41,5 +75,4 @@ fi
 
 parse_config "${remote}"
 
-# have to remove leading and trailing space in $params
-scp -r "$(echo "${params}" | sed -E 's/^[[:blank:]]*|[[:blank:]]*$//g')" "$@" "${address}:~/"
+scp -r "${params}" "$@" "${address}:${uploaddir}"
