@@ -3,7 +3,8 @@
 # Usage: spc update <remote-name> <config> <config2> <...>
 #
 # Configs is vaild if it the number of "=" <= 1
-# Example configs: "-P=8787", "-a"
+# Supported configs: address, uploaddir, downloaddir, and all options from scp
+# Example configs: "uploaddir=/home/", "-P=8787", "-q"
 #
 
 set -e
