@@ -1,7 +1,7 @@
 # SPC
 SPC lets you transfer files and folders to multiple computers easily.
 
-![screenshot](screenshot.png)
+<img src="example.gif" alt="example" width="600"/>
 
 ## Features
 - Using a short name to identify each remote machine
