@@ -1,5 +1,5 @@
 # SPC
-SPC lets you scp to multiple computers easily.
+SPC lets you transfer files and folders to multiple computers easily.
 
 ![screenshot](screenshot.png)
 
