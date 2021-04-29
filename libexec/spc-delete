@@ -11,7 +11,7 @@ if [ -z "$1" ]; then
 fi
 
 if [ -f "${SPC_REMOTES_DIR}/$1" ]; then
-  if [ "$(cat "${SPC_REMOTE}")" == "$1" ]; then
+  if [ -f "${SPC_REMOTE}" ] && [ "$(cat "${SPC_REMOTE}")" == "$1" ]; then
     rm "${SPC_REMOTE}"
   fi
   rm "${SPC_REMOTES_DIR}/$1"
