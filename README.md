@@ -17,7 +17,12 @@ SPC lets you transfer files and folders to multiple computers easily.
 2. Define `SPC_DIR` to the path where this repo is cloned. For Zsh or other shell user, subsitute `.bash_profile` for the corresponding configuration file.
 ```
     echo 'export SPC_DIR="$HOME/.spc"' >> ~/.bash_profile
-    echo 'export PATH="$SPC_DIR/bin:$PATH' >> ~/.bash_profile
+    echo 'export PATH="$SPC_DIR/bin:$PATH"' >> ~/.bash_profile
+```
+
+3. Restart the shell
+```
+    exec "$SHELL"
 ```
 
 ## How to use
