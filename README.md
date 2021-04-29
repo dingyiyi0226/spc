@@ -10,58 +10,58 @@ SPC lets you transfer files and folders to multiple computers easily.
 
 ## Installation
 1. Clone this repo
-```
+    ```
     git clone git@github.com:dingyiyi0226/spc.git ~/.spc
-```
+    ```
 
 2. Define `SPC_DIR` to the path where this repo is cloned. For Zsh or other shell user, subsitute `.bash_profile` for the corresponding configuration file.
-```
+    ```
     echo 'export SPC_DIR="$HOME/.spc"' >> ~/.bash_profile
     echo 'export PATH="$SPC_DIR/bin:$PATH"' >> ~/.bash_profile
-```
+    ```
 
 3. Restart the shell
-```
+    ```
     exec "$SHELL"
-```
+    ```
 
 ## How to use
 ### Set up remote machines
 1. Create a remote machine
-```
+    ```
     spc create mypc myname@1.1.1.1
-```
+    ```
 
 2. Set/Modify the configurations if needed ( [the supported configurations](#configurations) )
-```
+    ```
     spc update mypc -P=8787
-```
+    ```
 
 3. Set the choosen machine as default
-```
+    ```
     spc default mypc
-```
+    ```
 
 4. You can also get all avalible machines and the configurations on each machine
-```
+    ```
     spc remotes
     spc remote mypc
-```
+    ```
 
 ### Transmit files/folders to remote machines
 After setting the machine `mypc` as default, we can transfer files easliy!
 
 - Transfer to default machine
-```
+    ```
     spc file1.txt file2.txt dir1/
     spc download remoteFile1.txt remoteFile2.txt remoteDir1/
-```
+    ```
 
 - Transfer to specific machine
-```
+    ```
     spc -r mypc file1.txt file2.txt dir1/
     spc download -r mypc remoteFile1.txt remoteFile2.txt remoteDir1/
-```
+    ```
 
 ## Configurations
 For each remote machines, we can store these configurations:
