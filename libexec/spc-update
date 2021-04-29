@@ -41,7 +41,7 @@ for config in "$@"; do
     ## create or update config
     ## In order to use `sed` on both linux and macos, generate backup file and delete it
     if grep -q "^${config_key}=.*" "${filename}"; then
-      sed -i.bak "s/^${config_key}=.*/${config}/g" "${filename}"
+      sed -i.bak "s@^${config_key}=.*@${config}@g" "${filename}"  # config would contain '/', so change the syntax to '@'
       rm "${filename}.bak"
     else
       echo "${config}" >> "${filename}"
