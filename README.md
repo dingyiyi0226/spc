@@ -34,7 +34,7 @@ SPC lets you transfer files and folders to multiple computers easily.
 
 2. Set/Modify the configurations if needed ( [the supported configurations](#configurations) )
     ```
-    spc update mypc -P=8787
+    spc update mypc -P=8787 uploaddir=/usr/me/Desktop
     ```
 
 3. Set the choosen machine as default
