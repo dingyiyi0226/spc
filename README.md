@@ -90,12 +90,12 @@ spc support these commands:
 #### `spc upload`
 Upload file/folders to remote machine
 
-    Usage: spc [upload|-u] [-r <remote-name>] <file> <file2> <...>
+    Usage: spc [upload] [-r <remote-name>] <file> <file2> <...>
 
 #### `spc download`
 Download file/folders from remote machine
 
-    Usage: spc {download|-d} [-r <remote-name>] <file1> <file2> <...>
+    Usage: spc download [-r <remote-name>] <file1> <file2> <...>
 
 ### Remote setting commands
 
