@@ -1,6 +1,6 @@
 #!/bin/bash
 # Summary: Upload file/folders to remote machine
-# Usage: spc [upload|-u] [-r <remote-name>] <file> <file2> <...>
+# Usage: spc [upload] [-r <remote-name>] <file> <file2> <...>
 #
 
 set -e

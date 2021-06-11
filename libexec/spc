@@ -31,22 +31,17 @@ export PATH="${libexec_path}:${PATH}"
 
 command="$1"
 case "$command" in
-  create | delete | update | remove | remote | remotes | default )
+  upload | download | create | delete | update | remove | remote | remotes | default )
     shift
     exec "spc-${command}" "$@"
     ;;
 
-  help | -h | "" )
+  help | --help | "" )
     exec spc-help
     ;;
 
-  download | -d )
-    shift
-    exec spc-download "$@"
-    ;;
-
-  upload | -u | * )
-    if [[ "${command}" =~ ^(upload|-u)$ ]]; then
+  * )
+    if [[ "${command}" =~ ^(upload)$ ]]; then
       shift
     fi
     exec spc-upload "$@"

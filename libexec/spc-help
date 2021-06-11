@@ -1,6 +1,6 @@
 #!/bin/bash
 # Summary: Display help for all commands
-# Usage: spc help
+# Usage: spc {help|--help}
 #
 
 set -e

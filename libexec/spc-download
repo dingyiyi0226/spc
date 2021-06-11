@@ -1,6 +1,6 @@
 #!/bin/bash
 # Summary: Download file/folders from remote machine
-# Usage: spc {download|-d} [-r <remote-name>] <file1> <file2> <...>
+# Usage: spc download [-r <remote-name>] <file1> <file2> <...>
 #
 
 set -e
