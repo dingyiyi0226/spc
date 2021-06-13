@@ -8,6 +8,8 @@ set -e
 SCP_OPS=("-3" "-4" "-6" "-B" "-C" "-p" "-q" "-r" "-T" "-v" "-c" "-F" "-i" "-J" "-l" "-o" "-P" "-S")
 DEFAULT_UPLOAD_DIR="~/"
 
+configs=()
+
 get_config() {
   local config="$1"
   local file="$2"
@@ -16,7 +18,7 @@ get_config() {
 }
 
 parse_config() {
-  ## parse config and store in three variables: address, uploaddir, params
+  ## parse config and store in three variables: address, uploaddir, configs
 
   if [ ! -f "${SPC_REMOTES_DIR}/$1" ]; then
     echo "$1 not found"
@@ -31,20 +33,18 @@ parse_config() {
     if [[ -z "${uploaddir}" ]]; then
       uploaddir="${DEFAULT_UPLOAD_DIR}"
     fi
-    
-    params=""
+
     for ops in "${SCP_OPS[@]}"; do
       if grep -q -E "^${ops}(=|$)" "${SPC_REMOTES_DIR}/$1"; then
         value="$(get_config "${ops}" "${SPC_REMOTES_DIR}/$1")"
 
         if [[ -n "${value}" ]]; then
-          params="${params} ${ops} ${value}"
+          configs+=("${ops} ${value}")
         else
-          params="${params} ${ops}"
+          configs+=("${ops}")
         fi
       fi
     done
-    params="${params# }"
   fi
 }
 
@@ -75,4 +75,4 @@ fi
 
 parse_config "${remote}"
 
-scp -r "${params}" "$@" "${address}:${uploaddir}"
+scp -r "${configs[@]}" "$@" "${address}:${uploaddir}"
