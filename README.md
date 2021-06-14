@@ -90,19 +90,19 @@ spc support these commands:
 #### `spc upload`
 Upload file/folders to remote machine
 
-    Usage: spc [upload] [-r <remote-name>] [-d <upload-directory>] [-c <config-string>] <file> <file2> <...>
+    spc [upload] [-r <remote-name>] [-d <upload-directory>] [-c <config-string>] <file> <file2> <...>
 
 #### `spc download`
 Download file/folders from remote machine
 
-    Usage: spc download [-r <remote-name>] [-d <download-directory>] [-c <config-string>] <file1> <file2> <...>
+    spc download [-r <remote-name>] [-d <download-directory>] [-c <config-string>] <file1> <file2> <...>
 
 ### Remote setting commands
 
 #### `spc create`
 Create a new remote machine
 
-    Usage: spc create <remote-name> <address>
+    spc create <remote-name> <address>
 
 #### `spc delete`
 Delete a remote machine
