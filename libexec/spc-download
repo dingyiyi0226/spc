@@ -1,6 +1,7 @@
 #!/bin/bash
 # Summary: Download file/folders from remote machine
-# Usage: spc download [-r <remote-name>] <file1> <file2> <...>
+# Usage: spc download [-r <remote-name>] [-d <download-directory>] [-c <config-string>] <file1> <file2> <...>
+# Example: spc download -r remote1 -d /home -c "-P=8787 -p" file1
 #
 
 set -e
@@ -15,6 +16,37 @@ get_config() {
   local file="$2"
 
   awk -F "=" -v config="${config}" '$0~config {print $2}' "${file}"
+}
+
+apply_config() {
+  ## create or replace config
+
+  local option="$1"
+  local value="$2"
+
+  if [[ ! "${SCP_OPS[*]}" =~ ${option} ]]; then
+    echo "Invalid option: ${option}"
+    exit
+  fi
+
+  # replace config if exists
+  for i in "${!configs[@]}"; do
+    if [[ "${configs[i]%% *}" == "${option}" ]]; then
+      if [[ -n "${value}" ]]; then
+        configs[i]="${option} ${value}"
+      else
+        configs[i]="${option}"
+      fi
+      return 0
+    fi
+  done
+
+  # append config
+  if [[ -n "${value}" ]]; then
+    configs+=("${option} ${value}")
+  else
+    configs+=("${option}")
+  fi
 }
 
 parse_config() {
@@ -74,6 +106,36 @@ if [ $# == 0 ]; then
 fi
 
 parse_config "${remote}"
+
+if [[ "$1" =~ ^(-d|--directory)$ ]]; then
+  if [ -z "$2" ]; then
+    echo "Missing <upload-directory>"
+    exit
+  fi
+
+  # overwrite the download directory
+  downloaddir="$2"
+  shift 2
+fi
+
+if [[ "$1" =~ ^(-c|--config)$ ]]; then
+  if [ -z "$2" ]; then
+    echo "Missing <config-string>"
+    exit
+  fi
+
+  read -r -a custom_configs <<< "$2"
+
+  for config in "${custom_configs[@]}"; do
+    if [[ "${config}" == *=* ]]; then
+      apply_config "${config%%=*}" "${config##*=}"
+    else
+      apply_config "${config}"
+    fi
+  done
+  shift 2
+fi
+
 
 if [ $# -gt 1 ]; then
   IFS=","

@@ -34,7 +34,7 @@ SPC lets you transfer files and folders to multiple computers easily.
 
 2. Set/Modify the configurations if needed ( [the supported configurations](#configurations) )
     ```
-    spc update mypc -P=8787 uploaddir=/usr/me/Desktop
+    spc update mypc -P=8787 uploaddir=/home/me/Desktop
     ```
 
 3. Set the choosen machine as default
@@ -90,12 +90,12 @@ spc support these commands:
 #### `spc upload`
 Upload file/folders to remote machine
 
-    Usage: spc [upload] [-r <remote-name>] <file> <file2> <...>
+    Usage: spc [upload] [-r <remote-name>] [-d <upload-directory>] [-c <config-string>] <file> <file2> <...>
 
 #### `spc download`
 Download file/folders from remote machine
 
-    Usage: spc download [-r <remote-name>] <file1> <file2> <...>
+    Usage: spc download [-r <remote-name>] [-d <download-directory>] [-c <config-string>] <file1> <file2> <...>
 
 ### Remote setting commands
 
