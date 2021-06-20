@@ -41,9 +41,6 @@ case "$command" in
     ;;
 
   * )
-    if [[ "${command}" =~ ^(upload)$ ]]; then
-      shift
-    fi
     exec spc-upload "$@"
     ;;
     
