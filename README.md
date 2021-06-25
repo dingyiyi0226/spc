@@ -92,10 +92,14 @@ Upload file/folders to remote machine
 
     spc [upload] [-r <remote-name>] [-d <upload-directory>] [-c <config-string>] <file> <file2> <...>
 
+`<upload-directory>` can be a absolute/relative path if the path w/wo a leading `/`
+
 #### `spc download`
 Download file/folders from remote machine
 
     spc download [-r <remote-name>] [-d <download-directory>] [-c <config-string>] <file1> <file2> <...>
+
+`<download-directory>` can be a absolute/relative path if the path w/wo a leading `/`
 
 ### Remote setting commands
 

@@ -114,7 +114,12 @@ if [[ "$1" =~ ^(-d|--directory)$ ]]; then
   fi
 
   # overwrite the download directory
-  downloaddir="$2"
+  # the directory containing a leading "/" is absolute path
+  if [[ "$2" == /* ]]; then
+    downloaddir="$2"
+  else
+    downloaddir="${downloaddir}$2"
+  fi
   shift 2
 fi
 
