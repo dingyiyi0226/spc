@@ -37,7 +37,8 @@ case "$command" in
     ;;
 
   help | --help | "" )
-    exec spc-help
+    shift
+    exec spc-help "$@"
     ;;
 
   * )

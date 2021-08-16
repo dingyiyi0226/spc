@@ -5,6 +5,11 @@
 
 set -e
 
+# Provide spc completions
+if [ "$1" = "--complete" ]; then
+  exit
+fi
+
 echo "Usage: spc [<command>] [<args>]"
 echo "File transmitting commands:"
 printf "  %-8s  %s\n" "upload"     "Upload file/folders to remote machine"

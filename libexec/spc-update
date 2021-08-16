@@ -9,6 +9,12 @@
 
 set -e
 
+# Provide spc completions
+if [ "$1" = "--complete" ]; then
+  exec spc-remotes --raw
+  exit
+fi
+
 config_syntax_check() {
   local count
   count="$(echo "$1" | awk -F "=" '{print NF-1}')"

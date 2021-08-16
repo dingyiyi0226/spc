@@ -5,6 +5,11 @@
 
 set -e
 
+# Provide spc completions
+if [ "$1" = "--complete" ]; then
+  exit
+fi
+
 if [ -z "$1" ] || [ -z "$2" ]; then
   echo "Missing remote name or remote address"
   exit

@@ -1,9 +1,15 @@
 #!/bin/bash
 # Summary: List all remote machines
-# Usage: spc remotes
+# Usage: spc remotes [--raw]
 #
 
 set -e
+
+# Provide spc completions
+if [ "$1" = "--complete" ]; then
+  echo --raw
+  exit
+fi
 
 print_remote() {
   cur_prefix="* "
@@ -16,6 +22,15 @@ print_remote() {
 }
 
 shopt -s nullglob
+
+if [ "$1" = "--raw" ]; then
+  for remote in "${SPC_REMOTES_DIR}"/*; do
+    if [ -f "$remote" ]; then
+      echo "${remote##*/}"
+    fi
+  done
+  exit
+fi
 
 for remote in "${SPC_REMOTES_DIR}"/*; do
   if [ -f "$remote" ]; then

@@ -6,6 +6,18 @@
 
 set -e
 
+# Provide spc completions
+if [ "$1" = "--complete" ]; then
+  if [ "$2" = "-r" ]; then
+    exec spc-remotes --raw
+  else
+    echo -r
+    echo -d
+    echo -c
+  fi
+  exit
+fi
+
 SCP_OPS=("-3" "-4" "-6" "-B" "-C" "-p" "-q" "-r" "-T" "-v" "-c" "-F" "-i" "-J" "-l" "-o" "-P" "-S")
 DEFAULT_DOWNLOAD_DIR="${HOME}/"
 

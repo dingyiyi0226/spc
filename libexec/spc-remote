@@ -5,6 +5,12 @@
 
 set -e
 
+# Provide spc completions
+if [ "$1" = "--complete" ]; then
+  exec spc-remotes --raw
+  exit
+fi
+
 if [ -n "$1" ]; then
   if [ -f "${SPC_REMOTES_DIR}/$1" ]; then
     echo "$1"
