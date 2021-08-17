@@ -67,7 +67,7 @@ After setting the machine `mypc` as default, we can transfer files easliy!
 ## Configurations
 For each remote machines, we can store these configurations:
 
-- **address**. Must exists, autoset when you create the machine. Contains the informations of hostname and ip. (e.g. `myname@100.100.100.100`)
+- **address**. Must exists, set automatically when you create the machine. Contains the informations of hostname and ip. (e.g. `myname@100.100.100.100`)
 - **uploaddir**. The remote directory that stored uploaded files. The default directory is `~/`.  (Must set as absolute path)
 - **downloaddir**. The local directory that stored downloaded files. The default directory is `~/`. (Must set as absolute path)
 - **`scp` args**. 
@@ -132,7 +132,7 @@ Show the remote machine configurations
 #### `spc remotes`
 List all remote machines
 
-    spc remotes
+    spc remotes [--raw]
 
 #### `spc default`
 Set the default remote machine
