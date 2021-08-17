@@ -1,0 +1,20 @@
+#!/bin/bash
+# Summary: Initialize the package
+# Usage: spc init
+#
+
+set -e
+
+# Provide spc completions
+if [ "$1" = "--complete" ]; then
+  exit
+fi
+
+# Define variables
+echo 'export SPC_REMOTE="$SPC_DIR/remote"'
+
+mkdir -p "$HOME/.spc/remotes"
+echo 'export SPC_REMOTES_DIR="$HOME/.spc"'
+
+# Activate auto-complete
+echo "source $SPC_DIR/completion/completion.sh"
