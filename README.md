@@ -20,7 +20,12 @@ SPC lets you transfer files and folders to multiple computers easily.
     echo 'export PATH="$SPC_DIR/bin:$PATH"' >> ~/.bash_profile
     ```
 
-3. Restart the shell
+3. Activate the auto-completion
+    ```
+    echo 'source "$SPC_DIR/completion/completion.sh"' >> ~/.bash_profile
+    ```
+
+4. Restart the shell
     ```
     exec "$SHELL"
     ```
