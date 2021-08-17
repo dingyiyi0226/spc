@@ -18,14 +18,14 @@ _spc(){
     2)
       local command="${COMP_WORDS[1]}"
 
-      COMPREPLY=( $(compgen -W "$(bin/spc "$command" --complete)" -- "$word") )
+      COMPREPLY=( $(compgen -W "$(spc "$command" --complete)" -- "$word") )
       ;;
     3)
       local command="${COMP_WORDS[1]}"
       local option="${COMP_WORDS[2]}"
 
       if [ "$command" = "upload" ] || [ "$command" = "download" ]; then
-        COMPREPLY=( $(compgen -W "$(bin/spc "$command" --complete "$option")" -- "$word") )
+        COMPREPLY=( $(compgen -W "$(spc "$command" --complete "$option")" -- "$word") )
       else
         COMPREPLY=()
       fi
