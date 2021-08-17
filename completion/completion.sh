@@ -1,4 +1,8 @@
-#!/bin/bash
+if [ -n "$ZSH_NAME" ]; then
+  autoload -U +X compinit && compinit
+  autoload -U +X bashcompinit && bashcompinit
+  bashcompinit
+fi
 
 _spc(){
 
@@ -31,7 +35,6 @@ _spc(){
       ;;
 
   esac
-
 }
 
 complete -F _spc spc
