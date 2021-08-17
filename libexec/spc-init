@@ -13,8 +13,8 @@ fi
 # Define variables
 echo 'export SPC_REMOTE="$SPC_DIR/remote"'
 
-mkdir -p "$HOME/.spc/remotes"
-echo 'export SPC_REMOTES_DIR="$HOME/.spc"'
+mkdir -p "$SPC_DIR/remotes"
+echo 'export SPC_REMOTES_DIR="$SPC_DIR/remotes"'
 
 # Activate auto-complete
 echo "source $SPC_DIR/completion/completion.sh"

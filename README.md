@@ -14,18 +14,14 @@ SPC lets you transfer files and folders to multiple computers easily.
     git clone git@github.com:dingyiyi0226/spc.git ~/.spc
     ```
 
-2. Define `SPC_DIR` to the path where this repo is cloned. For Zsh or other shell user, subsitute `.bash_profile` for the corresponding configuration file.
+2. Define `SPC_DIR` and initialize spc. For Zsh or other shell user, subsitute `.bash_profile` for the corresponding configuration file.
     ```
     echo 'export SPC_DIR="$HOME/.spc"' >> ~/.bash_profile
     echo 'export PATH="$SPC_DIR/bin:$PATH"' >> ~/.bash_profile
+    echo 'eval "$(spc init)"' >> ~/.bash_profile
     ```
 
-3. Activate the auto-completion
-    ```
-    echo 'source "$SPC_DIR/completion/completion.sh"' >> ~/.bash_profile
-    ```
-
-4. Restart the shell
+3. Restart the shell
     ```
     exec "$SHELL"
     ```
