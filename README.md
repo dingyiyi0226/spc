@@ -33,17 +33,17 @@ SPC lets you transfer files and folders to multiple computers easily.
     spc create mypc myname@1.1.1.1
     ```
 
-2. Set/Modify the configurations if needed ( [the supported configurations](#configurations) )
+2. Set/Modify the configurations if needed ([the supported configurations](#configurations))
     ```
     spc update mypc -P=8787 uploaddir=/home/me/Desktop
     ```
 
-3. Set the choosen machine as default
+3. Set the machine as default
     ```
     spc default mypc
     ```
 
-4. You can also get all avalible machines and the configurations on each machine
+4. You can also get all avalible remote machines and configurations on each machine
     ```
     spc remotes
     spc remote mypc
