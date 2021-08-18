@@ -4,7 +4,7 @@ SPC lets you transfer files and folders to multiple computers easily.
 <img src="example.gif" alt="example" width="600"/>
 
 ## Features
-- Using a short name to identify each remote machine
+- Use a short name to identify each remote machine
 - Transfer multiple files/folders simutaneously
 - Intuitive operations 
 
@@ -68,8 +68,8 @@ After setting the machine `mypc` as default, we can transfer files easliy!
 For each remote machines, we can store these configurations:
 
 - **address**. Must exists, set automatically when you create the machine. Contains the informations of hostname and ip. (e.g. `myname@100.100.100.100`)
-- **uploaddir**. The remote directory that stored uploaded files. The default directory is `~/`.  (Must set as absolute path)
-- **downloaddir**. The local directory that stored downloaded files. The default directory is `~/`. (Must set as absolute path)
+- **uploaddir**. The remote directory that stores uploaded files. The default directory is `~/`.  (Must set as absolute path)
+- **downloaddir**. The local directory that stores downloaded files. The default directory is `~/`. (Must set as absolute path)
 - **`scp` args**. 
 
 ## Commands
