@@ -139,4 +139,6 @@ Set the default remote machine
 
     spc default <remote-name>
 
+## Credits
+SPC is inspired by [pyenv](https://github.com/pyenv/pyenv)
 
