@@ -43,7 +43,7 @@ SPC lets you transfer files and folders to multiple computers easily.
     spc default mypc
     ```
 
-4. You can also get all avalible remote machines and configurations on each machine
+4. You can also get all remote machines and configurations
     ```
     spc remotes
     spc remote mypc
