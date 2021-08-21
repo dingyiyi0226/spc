@@ -64,6 +64,13 @@ After setting the machine `mypc` as default, we can transfer files easliy!
     spc download -r mypc remoteFile1.txt remoteFile2.txt remoteDir1/
     ```
 
+You can also modify configurations for this command
+
+```
+spc -d /home -c "-P=8787 -p" file.txt
+spc download -d /home -c "-P=8787 -p" file.txt
+```
+
 ## Configurations
 For each remote machines, we can store these configurations:
 
