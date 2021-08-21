@@ -5,6 +5,10 @@
 
 set -e
 
+if [ -n "$SPC_DEBUG" ]; then
+  set -x
+fi
+
 # Provide spc completions
 if [ "$1" = "--complete" ]; then
   exit

@@ -2,6 +2,12 @@
 
 set -e
 
+if [ "$1" = "--debug" ]; then
+  export SPC_DEBUG=1
+  shift
+  set -x
+fi
+
 abs_path() {
   local path="$1"
   (
