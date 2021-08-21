@@ -79,6 +79,9 @@ For each remote machines, we can store these configurations:
 - **downloaddir**. The local directory that stores downloaded files. The default directory is `~/`. (Must set as absolute path)
 - **`scp` args**. 
 
+## How it works
+SPC is a scp wrapper. The configuration used in each scp command is stored under `$SPC_DIR` (normally `$HOME/.spc`)
+
 ## Commands
 
 spc support these commands:
