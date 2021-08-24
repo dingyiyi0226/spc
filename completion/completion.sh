@@ -18,7 +18,14 @@ _spc(){
     2)
       local command="${COMP_WORDS[1]}"
 
-      COMPREPLY=( $(compgen -W "$(spc "$command" --complete)" -- "$word") )
+      if [[ " $commands " =~ " $command " ]]; then
+        COMPREPLY=( $(compgen -W "$(spc "$command" --complete)" -- "$word") )
+      elif [[ "$command" = "-r" ]]; then
+        COMPREPLY=( $(compgen -W "$(spc upload --complete -r)" -- "$word") )
+      else
+        COMPREPLY=()
+      fi
+
       ;;
     3)
       local command="${COMP_WORDS[1]}"
