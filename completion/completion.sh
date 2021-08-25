@@ -44,4 +44,4 @@ _spc(){
   esac
 }
 
-complete -F _spc spc
+complete -o default -F _spc spc
