@@ -12,12 +12,14 @@ fi
 
 # Provide spc completions
 if [ "$1" = "--complete" ]; then
-  if [ "$2" = "-r" ]; then
-    exec spc-remotes --raw
-  else
+  if [[ -z "$2" ]]; then
     echo -r
     echo -d
     echo -c
+    exit
+  fi
+  if [ "$2" = "-r" ]; then
+    exec spc-remotes --raw
   fi
   exit
 fi
