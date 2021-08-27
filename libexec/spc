@@ -28,9 +28,13 @@ case "$command" in
     exec "spc-${command}" "$@"
     ;;
 
-  help | --help | "" )
+  help | --help )
     shift
     exec spc-help "$@"
+    ;;
+
+  "" )
+    exec spc-help
     ;;
 
   * )
