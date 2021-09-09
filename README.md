@@ -1,6 +1,8 @@
 # SPC
 SPC lets you transfer files and folders to multiple computers easily.
 
+SPC is a scp wrapper that help you record all remote machines configurations. You can upload/download files to specific remote machine effortlessly.
+
 <img src="example.gif" alt="example" width="600"/>
 
 ## Features
