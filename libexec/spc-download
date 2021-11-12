@@ -25,7 +25,7 @@ if [ "$1" = "--complete" ]; then
 fi
 
 SCP_OPS=("-3" "-4" "-6" "-B" "-C" "-p" "-q" "-r" "-T" "-v" "-c" "-F" "-i" "-J" "-l" "-o" "-P" "-S")
-DEFAULT_DOWNLOAD_DIR="${HOME}/"
+DEFAULT_DOWNLOAD_DIR="${HOME}/Downloads/"
 
 configs=()
 
@@ -68,7 +68,7 @@ apply_config() {
 }
 
 parse_config() {
-  ## parse config and store in three variables: address, downloaddir, configs
+  ## parse config and store in three variables: address, uploaddir, downloaddir, configs
 
   if [ ! -f "${SPC_REMOTES_DIR}/$1" ]; then
     echo "$1 not found"
@@ -78,6 +78,9 @@ parse_config() {
       echo "No address"
       exit
     fi
+
+    # uploaddir could be empty
+    uploaddir="$(get_config "uploaddir" "${SPC_REMOTES_DIR}/$1")"
 
     downloaddir="$(get_config "downloaddir" "${SPC_REMOTES_DIR}/$1")"
     if [[ -z "${downloaddir}" ]]; then
@@ -127,16 +130,16 @@ parse_config "${remote}"
 
 if [[ "$1" =~ ^(-d|--directory)$ ]]; then
   if [ -z "$2" ]; then
-    echo "Missing <upload-directory>"
+    echo "Missing <directory>"
     exit
   fi
 
-  # overwrite the download directory
+  # overwrite the upload(remote) directory
   # the directory containing a leading "/" is absolute path
   if [[ "$2" == /* ]]; then
-    downloaddir="$2"
+    uploaddir="$2"
   else
-    downloaddir="${downloaddir}$2"
+    uploaddir="${uploaddir}$2"
   fi
   shift 2
 fi
@@ -162,8 +165,8 @@ fi
 
 if [ $# -gt 1 ]; then
   IFS=","
-  scp -r "${configs[@]}" "${address}:{$*}" "${downloaddir}"
+  scp -r "${configs[@]}" "${address}:${uploaddir}/{$*}" "${downloaddir}"
   IFS=" "
 else
-  scp -r "${configs[@]}" "${address}:$*" "${downloaddir}"
+  scp -r "${configs[@]}" "${address}:${uploaddir}/$*" "${downloaddir}"
 fi
