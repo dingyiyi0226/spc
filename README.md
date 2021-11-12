@@ -100,19 +100,44 @@ spc support these commands:
 - [`spc default`](#spc-default)
 
 ### File transmitting commands
+
+Consider this example remote configuration
+
+```
+address=dingyiyi0226@100.100.100.100
+uploaddir=/home/dingyiyi0226/Documents/
+downloaddir=/Users/dingyiyi0226/Downloads/
+```
+
 #### `spc upload`
 Upload file/folders to remote machine
 
-    spc [upload] [-r <remote-name>] [-d <upload-directory>] [-c <config-string>] <file> <file2> <...>
+    spc [upload] [-r <remote-name>] [-d <directory>] [-c <config-string>] <file> <file2> <...>
 
-`<upload-directory>` can be a absolute/relative path if the path w/wo a leading `/`
+`<directory>` can be a absolute/relative path if the path w/wo a leading `/`
+
+##### Usage
+-   `spc test.txt`  
+    upload `./text.txt` to `/home/dingyiyi0226/Documents/text.txt`
+-   `spc -d dir1 test.txt`  
+    upload `./text.txt` to `/home/dingyiyi0226/Documents/dir1/text.txt`
+-   `spc -d /dir1 test.txt`  
+    upload `./text.txt` to `/dir1/text.txt`
 
 #### `spc download`
 Download file/folders from remote machine
 
-    spc download [-r <remote-name>] [-d <download-directory>] [-c <config-string>] <file1> <file2> <...>
+    spc download [-r <remote-name>] [-d <directory>] [-c <config-string>] <file1> <file2> <...>
 
-`<download-directory>` can be a absolute/relative path if the path w/wo a leading `/`
+`<directory>` can be a absolute/relative path if the path w/wo a leading `/`
+
+##### Usage
+-   `spc download test.txt`  
+    download `/home/dingyiyi0226/Documents/text.txt` to `/Users/dingyiyi0226/Downloads/test.txt`
+-   `spc download -d dir1 test.txt`  
+    download `/home/dingyiyi0226/Documents/dir1/text.txt` to `/Users/dingyiyi0226/Downloads/test.txt`
+-   `spc download -d /dir1 test.txt`  
+    download `/dir1/text.txt` to `/Users/dingyiyi0226/Downloads/test.txt`
 
 ### Remote setting commands
 

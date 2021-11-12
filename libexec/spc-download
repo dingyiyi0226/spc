@@ -1,6 +1,6 @@
 #!/bin/bash
 # Summary: Download file/folders from remote machine
-# Usage: spc download [-r <remote-name>] [-d <download-directory>] [-c <config-string>] <file1> <file2> <...>
+# Usage: spc download [-r <remote-name>] [-d <upload-directory>] [-c <config-string>] <file1> <file2> <...>
 # Example: spc download -r remote1 -d /home -c "-P=8787 -p" file1
 #
 
@@ -130,7 +130,7 @@ parse_config "${remote}"
 
 if [[ "$1" =~ ^(-d|--directory)$ ]]; then
   if [ -z "$2" ]; then
-    echo "Missing <directory>"
+    echo "Missing <upload-directory>"
     exit
   fi
 
