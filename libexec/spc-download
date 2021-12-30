@@ -81,6 +81,9 @@ parse_config() {
 
     # uploaddir could be empty
     uploaddir="$(get_config "uploaddir" "${SPC_REMOTES_DIR}/$1")"
+    if [[ -n "${uploaddir}" ]] && [[ ! "${uploaddir}" =~ /$ ]]; then
+      uploaddir="${uploaddir}/"
+    fi
 
     downloaddir="$(get_config "downloaddir" "${SPC_REMOTES_DIR}/$1")"
     if [[ -z "${downloaddir}" ]]; then

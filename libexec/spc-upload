@@ -82,6 +82,8 @@ parse_config() {
     uploaddir="$(get_config "uploaddir" "${SPC_REMOTES_DIR}/$1")"
     if [[ -z "${uploaddir}" ]]; then
       uploaddir="${DEFAULT_UPLOAD_DIR}"
+    elif [[ ! "${uploaddir}" =~ /$ ]]; then
+      uploaddir="${uploaddir}/"
     fi
 
     for ops in "${SCP_OPS[@]}"; do
