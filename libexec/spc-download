@@ -165,7 +165,7 @@ if [[ "$1" =~ ^(-c|--config)$ ]]; then
   shift 2
 fi
 
-
+echo "Download from ${address}:${uploaddir}"
 if [ $# -gt 1 ]; then
   IFS=","
   scp -r "${configs[@]}" "${address}:${uploaddir}/{$*}" "${downloaddir}"
