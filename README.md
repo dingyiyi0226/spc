@@ -13,7 +13,7 @@ SPC is a scp wrapper that help you record all remote machines configurations. Yo
 ## Installation
 1. Clone this repo
     ```
-    git clone git@github.com:dingyiyi0226/spc.git ~/.spc
+    git clone https://github.com/dingyiyi0226/spc.git ~/.spc
     ```
 
 2. Define `SPC_DIR` and initialize spc. For Zsh or other shell user, subsitute `.bash_profile` for the corresponding configuration file.
